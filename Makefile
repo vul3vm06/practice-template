@@ -9,6 +9,8 @@ CXX := $(CC)++
 CFLAGS := $(CFLAGS) -fsanitize=address
 CXXFLAGS := $(CXXFLAGS) -std=c++11
 CXXFLAGS := $(CXXFLAGS) -fsanitize=address
+# Build symbols
+# CXXFLAGS := $(CXXFLAGS) -g
 
 all: $(CPPBINS) $(CBINS)
 
