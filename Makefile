@@ -3,12 +3,16 @@ CPPBINS := $(patsubst %.cpp,%,$(CPPSRCS))
 CSRCS := $(wildcard *.c)
 CBINS := $(patsubst %.c,%,$(CSRCS))
 
-CC := /usr/local/opt/llvm/bin/clang
-CXX := $(CC)++
+# Depends on the environment and requirements
+# CC := /usr/local/opt/llvm/bin/clang
+# CXX := $(CC)++
+# CXXFLAGS := $(CXXFLAGS) -std=c++11
 
 CFLAGS := $(CFLAGS) -fsanitize=address
-CXXFLAGS := $(CXXFLAGS) -std=c++11
 CXXFLAGS := $(CXXFLAGS) -fsanitize=address
+# Build symbols
+CFLAGS := $(CFLAGS) -g
+CXXFLAGS := $(CXXFLAGS) -g
 
 all: $(CPPBINS) $(CBINS)
 
@@ -18,4 +22,5 @@ $(CBINS):
 
 clean:
 	rm -f $(CPPBINS) $(CBINS)
-	rm -rf $(patsubst %.cpp,%.dSYM,$(CPPSRCS))
+# Xcode
+#	rm -rf $(patsubst %.cpp,%.dSYM,$(CPPSRCS))
