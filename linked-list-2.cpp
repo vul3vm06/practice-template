@@ -11,9 +11,21 @@ struct ListNode {
   ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
+void deleteAllNodes(ListNode *head) {
+  ListNode *temp = nullptr;
+  while (head) {
+    temp = head->next;
+    delete head;
+    head = temp;
+  }
+};
+
 class Solution {
 public:
-  ListNode *mergeTwoLists(ListNode *list1, ListNode *list2) { return list1; }
+  ListNode *DoRun(ListNode *list1, ListNode *list2) {
+    //
+    return list1;
+  }
 };
 
 int main() {
@@ -47,7 +59,7 @@ int main() {
     count++;
   }
 
-  ListNode *ans = Solution().mergeTwoLists(head1, head2);
+  ListNode *ans = Solution().DoRun(head1, head2);
 
   cout << "ans: ";
   while (ans) {
@@ -55,6 +67,10 @@ int main() {
     ans = ans->next;
   }
   cout << endl;
+
+  deleteAllNodes(head1);
+  deleteAllNodes(head2);
+  deleteAllNodes(ans);
 
   return 0;
 }
