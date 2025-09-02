@@ -54,8 +54,8 @@ int main(int argc, char **argv) {
       if (*it == ']') {
         num_strayed_left_bracket--;
       }
-    } else if (isdigit(*it)) {
-      DEBUG_INPUT_PARSING &&cout << " isdigit, push " << *it << " to "
+    } else if (isdigit(*it) || '+' == *it || '-' == *it) {
+      DEBUG_INPUT_PARSING &&cout << "+ - isdigit, push " << *it << " to "
                                  << single_number << endl;
       single_number.push_back(*it);
     } else {
