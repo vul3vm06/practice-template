@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -10,39 +11,35 @@ public:
   int minPathSum(vector<vector<int>> &grid) { return 0; }
 };
 
-vector<vector<int>> stringToMatrix(string input) {
-  vector<vector<int>> matrix;
-  vector<int> row;
-  string current_num;
-  int depth = 0;
-
-  for (char c : input) {
-    if (c == ' ')
+vector<vector<int>> stringToVectorOfVectors(string input) {
+  vector<vector<int>> result;
+  if (input.size() <= 2)
+    return result; // Handle empty "[]"
+  // Remove the very first and last brackets to avoid edge cases
+  // Input: "[[1,2],[3,4]]" -> "[1,2],[3,4]"
+  string inner = input.substr(1, input.length() - 2);
+  stringstream ss(inner);
+  string segment;
+  // Split by ']' to isolate each inner vector
+  // Segments will look like "[1,2" or ",[3,4"
+  while (getline(ss, segment, ']')) {
+    // Find where the numbers actually start (after '[')
+    size_t start = segment.find('[');
+    if (start == string::npos)
       continue;
-
-    if (c == '[') {
-      depth++;
-    } else if (c == ']' || c == ',') {
-      if (depth == 2) {
-        if (!current_num.empty()) {
-          row.push_back(stoi(current_num));
-          current_num.clear();
-        }
-      } else if (depth == 1) {
-        if (!row.empty()) {
-          matrix.push_back(row);
-          row.clear();
-        }
-      }
-
-      if (c == ']') {
-        depth--;
-      }
-    } else if (isdigit(c) || c == '-' || c == '+') {
-      current_num += c;
+    // Extract "1,2" and replace commas with spaces for easy parsing
+    string rowStr = segment.substr(start + 1);
+    replace(rowStr.begin(), rowStr.end(), ',', ' ');
+    // Stream the numbers
+    stringstream rowSS(rowStr);
+    vector<int> row;
+    int val;
+    while (rowSS >> val) {
+      row.push_back(val);
     }
+    result.push_back(row);
   }
-  return matrix;
+  return result;
 }
 
 int main() {
@@ -60,7 +57,7 @@ int main() {
     }
     empty_lines = 0;
 
-    vector<vector<int>> matrix = stringToMatrix(input);
+    vector<vector<int>> matrix = stringToVectorOfVectors(input);
 
     if (!matrix.empty()) {
       int result = sol.minPathSum(matrix);

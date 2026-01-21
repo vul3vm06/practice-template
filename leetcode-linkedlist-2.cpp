@@ -22,29 +22,19 @@ public:
 };
 
 ListNode *stringToList(string input) {
-  if (input.empty())
-    return nullptr;
-  // Remove brackets if present
-  if (input.front() == '[')
-    input.erase(0, 1);
-  if (!input.empty() && input.back() == ']')
-    input.pop_back();
-
-  if (input.empty())
-    return nullptr;
-
-  stringstream ss(input);
-  string token;
   ListNode *dummy = new ListNode(0);
   ListNode *curr = dummy;
 
-  while (getline(ss, token, ',')) {
-    try {
-      curr->next = new ListNode(stoi(token));
-      curr = curr->next;
-    } catch (...) {
-      continue;
+  for (char &c : input) {
+    if (c == '[' || c == ']' || c == ',') {
+      c = ' ';
     }
+  }
+  stringstream ss(input);
+  int val;
+  while (ss >> val) {
+    curr->next = new ListNode(val);
+    curr = curr->next;
   }
 
   ListNode *head = dummy->next;
