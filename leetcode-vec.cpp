@@ -17,24 +17,18 @@ public:
 };
 
 vector<int> stringToVector(string input) {
-  // Remove brackets if present
-  if (!input.empty() && input.front() == '[')
-    input.erase(0, 1);
-  if (!input.empty() && input.back() == ']')
-    input.pop_back();
-
-  vector<int> nums;
-  stringstream ss(input);
-  string token;
-
-  while (getline(ss, token, ',')) {
-    try {
-      nums.push_back(stoi(token));
-    } catch (...) {
-      continue;
+  vector<int> result;
+  for (char &c : input) {
+    if (c == '[' || c == ']' || c == ',') {
+      c = ' ';
     }
   }
-  return nums;
+  stringstream ss(input);
+  int val;
+  while (ss >> val) {
+    result.push_back(val);
+  }
+  return result;
 }
 
 int main() {
